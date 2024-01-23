@@ -58,6 +58,16 @@ def deleteBooking():
     )
     print(response.text)
 
+def deskGlobalSettings():
+    # deskGlobalSettings
+    response = condeco.deskGlobalSettings()
+    print(response.text)
+
+def deskSystemInfo():
+    # deskSystemInfo
+    response = condeco.deskSystemInfo()
+    print(response.text)
+
 def findColleagues():
     # findColleagues
     response = condeco.findColleagues(
@@ -132,11 +142,6 @@ def getSessionToken():
     response = condeco.getSessionToken(
         access_token=configuration['authentication']['token']
     )
-    print(response.text)
-
-def deskGlobalSettings():
-    # deskGlobalSettings
-    response = condeco.deskGlobalSettings()
     print(response.text)
 
 def globalSettings():
@@ -255,7 +260,6 @@ def main():
         # getSessionToken()
         # globalSettings()
         # listBookings()
-        # deskGlobalSettings()
         # releaseDesk()
         # roomSearch()
         # roomSearchByFeatures()
