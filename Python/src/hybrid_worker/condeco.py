@@ -28,7 +28,6 @@ It supports obtaining an authenticated session and querying the system.
 
 # Third party library for making HTTP(S) requests;
 # "pip install requests" if getting import errors.
-from pickle import NONE
 import requests
 
 
@@ -726,7 +725,7 @@ class Condeco:
         # Return the response.
         return response
 
-    def getLoginInformation(self, access_token, session_token, language_id, current_date_time, curent_culture):
+    def getLoginInformation(self, access_token, session_token, language_id, current_date_time, current_culture):
         """
         Get login information.
 
@@ -735,7 +734,7 @@ class Condeco:
             session_token (str): The opaque session access token.
             language_id (int): The language id.
             current_date_time (str): The current date and time.
-            curent_culture (str): The current culture identifier.
+            current_culture (str): The current culture identifier.
 
         Returns:
             Response: The full response object.
@@ -751,7 +750,7 @@ class Condeco:
         query = f'token={session_token}'
         query += f'&languageId={language_id}'
         query += f'&currentDateTime={current_date_time}'
-        query += f'&currentCulture={curent_culture}'
+        query += f'&currentCulture={current_culture}'
 
         # Send the login information request.
         response = requests.get(
@@ -1431,7 +1430,7 @@ class Condeco:
         # Return the response.
         return response
 
-    def updateAttendanceRecord(self, access_token, session_token, start_date, end_date, attendance_type, location_id):
+    def updateAttendanceRecord(self, access_token, session_token, start_date, end_date, attendence_type, location_id):
         """
         Update attendance record.
 
@@ -1440,7 +1439,7 @@ class Condeco:
             session_token (str): The opaque session access token.
             start_date (str): The start date.
             end_date (str): The end date.
-            attendance_type (int): The attendance type.
+            attendence_type (int): The attendence type.
             location_id (int): The location identifier.
 
         Returns:
@@ -1457,8 +1456,8 @@ class Condeco:
         query = f'accessToken={session_token}'
         query += f'&startDate={start_date}'
         query += f'&endDate={end_date}'
-        query += f'&attendenceType={attendance_type}'
-        query += f'&LocationId={location_ud}'
+        query += f'&attendenceType={attendence_type}'
+        query += f'&LocationId={location_id}'
 
         # Send the update attendance record request.
         response = requests.get(
