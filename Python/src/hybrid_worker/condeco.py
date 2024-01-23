@@ -698,7 +698,7 @@ class Condeco:
             session_token (str): The opaque session access token.
             booking_for_user_id (int): The specified user id.
             location_id (int): The specified location identifier.
-            group_ids (str): The specified group identifiers.
+            group_ids (str): The specified group identifiers (separated by commas).
 
         Returns:
             Response: The full response object.
@@ -712,9 +712,9 @@ class Condeco:
 
         # Query parameters.
         query = f'accessToken={session_token}'
-        query += f'&bookingForUserId={location_id}'
-        query += f'&locationId={group_id}'
-        query += f'&groupIds={floor_id}'
+        query += f'&bookingForUserId={booking_for_user_id}'
+        query += f'&locationId={location_id}'
+        query += f'&groupIds={group_ids}'
 
         # Send the desk booking session token request.
         response = requests.get(

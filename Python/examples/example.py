@@ -112,7 +112,18 @@ def getFloorPlan():
         session_token=configuration['authentication']['sessionToken'],
         location_id=configuration['examples']['location_id'],
         group_id=configuration['examples']['group_id'],
-        floor_id=configuration['examples']['floor_id'],
+        floor_id=configuration['examples']['floor_id']
+    )
+    print(response.text)
+
+def getGroupSettingsWithRestrictions():
+    # getGroupSettingsWithRestrictions
+    response = condeco.getGroupSettingsWithRestrictions(
+        access_token=configuration['authentication']['token'],
+        session_token=configuration['authentication']['sessionToken'],
+        booking_for_user_id=configuration['examples']['user_id'],
+        location_id=configuration['examples']['location_id'],
+        group_ids=configuration['examples']['group_id']
     )
     print(response.text)
 
@@ -126,6 +137,11 @@ def getSessionToken():
 def deskGlobalSettings():
     # deskGlobalSettings
     response = condeco.deskGlobalSettings()
+    print(response.text)
+
+def globalSettings():
+    # globalSettings
+    response = condeco.globalSettings()
     print(response.text)
 
 def search():
