@@ -100,14 +100,6 @@ def getColleagueBookings():
     )
     print(response.text)
 
-def getMyTeams():
-    # getMyTeams
-    response = condeco.getMyTeams(
-        access_token=configuration['authentication']['token'],
-        user_long_id=configuration['authentication']['sessionToken']
-    )
-    print(response.text)
-
 def getDeskSessionToken():
     # getDeskSessionToken (V2)
     response = condeco.getDeskSessionToken(
@@ -134,6 +126,14 @@ def getGroupSettingsWithRestrictions():
         booking_for_user_id=configuration['examples']['user_id'],
         location_id=configuration['examples']['location_id'],
         group_ids=configuration['examples']['group_id']
+    )
+    print(response.text)
+
+def getMyTeams():
+    # getMyTeams
+    response = condeco.getMyTeams(
+        access_token=configuration['authentication']['token'],
+        user_long_id=configuration['authentication']['sessionToken']
     )
     print(response.text)
 
@@ -176,7 +176,7 @@ def searchDeskByFeatures():
         'userID':configuration['examples']['user_id'],
         'deskAttributes':{},
         'wsTypeID':configuration['examples']['ws_type_id']
-        }
+    }
 
     response = condeco.searchDeskByFeatures(
         access_token=configuration['authentication']['token'],
