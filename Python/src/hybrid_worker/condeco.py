@@ -43,7 +43,7 @@ class Condeco:
     # This sets a 1 minute connect and read timeout.
     TIMEOUT = 60
 
-    ATTENDANCE_TYPE = { 
+    ATTENDANCE_TYPE = {
         'PresentInOffice': 0,
         'WorkingFromHome': 1,
         'OnLeave': 2,
@@ -51,32 +51,32 @@ class Condeco:
         'Unknown': 4
     }
 
-    BOOKING_STATUS = { 
+    BOOKING_STATUS = {
         'None': 0,
         'ReadyToCheckIn': 1,
         'ReadyToRelease': 2,
         'NotReady': 3
     }
 
-    BOOKING_TYPE = { 
+    BOOKING_TYPE = {
         'None': 0,
         'Morning': 1,
         'Evening': 2,
         'AllDay': 3
     }
 
-    CHECK_IN_STATUS = { 
+    CHECK_IN_STATUS = {
         'NotCheckedIn': 0,
         'CheckedIn': 1
     }
 
-    TEAM_INVITATION_STATUS = { 
+    TEAM_INVITATION_STATUS = {
         'Declined': 0,
         'Accepted': 1,
         'NotResponded': 2,
     }
 
-    WORKSPACE_TYPE = { 
+    WORKSPACE_TYPE = {
         'None': 0,
         'Room': 1,
         'Desk': 2,
@@ -87,7 +87,7 @@ class Condeco:
     def __init__(self, unique_key):
         """
         Initalise the Condeco class with a unique_key.
-        
+
         Args:
             unique_key (str): The hostname of the Condeco instance.
         """
@@ -115,7 +115,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -152,7 +152,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -181,7 +181,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -213,7 +213,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -247,7 +247,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -276,7 +276,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -310,7 +310,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -346,7 +346,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -360,7 +360,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def deskAuthenticateUserSecure(self, user_authentication):
         """
         Start the desk authentication process with Condeco®.
@@ -433,7 +433,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -447,7 +447,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def extendBooking(self, access_token, extend_booking_request):
         """
         End a room booking.
@@ -462,7 +462,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -492,10 +492,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&name={name}'
@@ -525,10 +525,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&locations={locations}'
@@ -559,10 +559,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&startDate={start_date}'
@@ -597,10 +597,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&startDate={start_date}'
@@ -632,10 +632,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         if current_culture is not None:
             query = f'currentCulture={current_culture}'
@@ -669,10 +669,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&locationId={location_id}'
@@ -688,7 +688,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def getGroupSettingsWithRestrictions(self, access_token, session_token, booking_for_user_id, location_id, group_ids):
         """
         Get floor plan.
@@ -706,10 +706,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&bookingForUserId={location_id}'
@@ -743,10 +743,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'token={session_token}'
         query += f'&languageId={language_id}'
@@ -777,7 +777,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -809,7 +809,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -826,7 +826,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def getRoomAvailabilities(self, access_token, room_request):
         """
         Get room availability information.
@@ -841,7 +841,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -855,7 +855,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def getRoomInfos(self, access_token, room_request):
         """
         Get room information.
@@ -870,7 +870,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -900,7 +900,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -933,7 +933,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -950,7 +950,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def getSessionToken(self, access_token):
         """
         Get session token.
@@ -964,7 +964,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1017,10 +1017,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'sessionGuid={session_token}'
         query += f'&languageId={language_id}'
@@ -1051,7 +1051,7 @@ class Condeco:
         Returns:
             Response: The full response object.
         """
-        
+
         # Send the login request.
         response = requests.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/LoginWithMagicLink',
@@ -1079,10 +1079,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&locationID={location_id}'
@@ -1112,7 +1112,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1126,7 +1126,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def roomSearchByFeatures(self, access_token, room_search_request_with_features):
         """
         Search for room with specific features.
@@ -1141,7 +1141,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1170,7 +1170,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1206,22 +1206,22 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
-        
-        if user_id is not None: 
+
+        if user_id is not None:
             query += f'&userId={user_id}'
-        
+
         query += f'&locationID={location_id}'
         query += f'&groupId={group_id}'
         query += f'&floorId={floor_id}'
         query += f'&startDate={start_date}'
         query += f'&bookingType={booking_type}'
-        
+
         if ws_type_id is not None:
             query += f'&WSTypeId={ws_type_id}'
 
@@ -1249,7 +1249,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1263,7 +1263,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def searchDeskByFeatures(self, access_token, desk_search_request_with_features):
         """
         Search for desk with specific features.
@@ -1278,7 +1278,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1307,7 +1307,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1343,7 +1343,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def startBooking(self, access_token, start_booking_request):
         """
         Start a room booking request.
@@ -1358,7 +1358,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1372,7 +1372,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def teamDayAcceptDecline(self, access_token, team_day_accept_decline_request):
         """
         Team day response.
@@ -1387,7 +1387,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1401,7 +1401,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def teamMemberOperation(self, access_token, team_member_operation_request):
         """
         Team member operation request.
@@ -1416,7 +1416,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1430,7 +1430,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def updateAttendanceRecord(self, access_token, session_token, start_date, end_date, attendance_type, location_id):
         """
         Update attendance record.
@@ -1449,10 +1449,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&startDate={start_date}'
@@ -1469,7 +1469,7 @@ class Condeco:
 
         # Return the response.
         return response
-    
+
     def updateBooking(self, access_token, update_booking_request):
         """
         Update a room booking.
@@ -1484,7 +1484,7 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
 
@@ -1517,10 +1517,10 @@ class Condeco:
 
         # Create a copy of the original header dictionary.
         headers = Condeco.HEADERS.copy()
-        
+
         # We append an OAuth 2.0 bearer token.
         headers['Authorization'] = f'Bearer {access_token}'
-        
+
         # Query parameters.
         query = f'accessToken={session_token}'
         query += f'&countryID={country_id}'

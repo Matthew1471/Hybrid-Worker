@@ -66,7 +66,7 @@ def findColleagues():
         name=configuration['examples']['name']
     )
     print(response.text)
-    
+
 def getAttendancesRecord():
     # getAttendancesRecord
     response = condeco.getAttendancesRecord(
@@ -104,7 +104,7 @@ def getSessionToken():
         access_token=configuration['authentication']['token']
     )
     print(response.text)
-    
+
 def getDeskSessionToken():
     # getDeskSessionToken (V2)
     response = condeco.getDeskSessionToken(
@@ -116,7 +116,7 @@ def deskGlobalSettings():
     # deskGlobalSettings
     response = condeco.deskGlobalSettings()
     print(response.text)
-    
+
 def search():
     # search
     response = condeco.search(
@@ -232,7 +232,7 @@ def main():
         # updateBooking()
         # updateDefaultSettings()
 
-    # Is the user wanting to validate a validation key?  
+    # Is the user wanting to validate a validation key?
     elif configuration['authentication'].get('validation_key'):
         # Validate the validation key and return a token.
         response = condeco.loginWithMagicLink(
