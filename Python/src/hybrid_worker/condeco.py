@@ -101,7 +101,7 @@ class Condeco:
         Args:
             access_token (str): The JWT access token for authentication.
             session_token (str): The opaque session access token.
-            user_id (int): The user to book the desk for.
+            user_id (int, optional): The user to book the desk for.
             location_id (int): The location the desk is in.
             group_id (int): The group the desk is in.
             floor_id (int): The floor the desk is in.
@@ -120,7 +120,10 @@ class Condeco:
 
         # Query parameters.
         query = f'accessToken={session_token}'
-        query += f'&userID={user_id}'
+        
+        if user_id is not None:
+            query += f'&userID={user_id}'
+
         query += f'&locationID={location_id}'
         query += f'&groupID={group_id}'
         query += f'&floorID={floor_id}'
@@ -1430,7 +1433,7 @@ class Condeco:
         # Return the response.
         return response
 
-    def updateAttendanceRecord(self, access_token, session_token, start_date, end_date, attendence_type, location_id):
+    def updateAttendanceRecord(self, access_token, session_token, start_date, end_date, attendance_type, location_id):
         """
         Update attendance record.
 
@@ -1439,7 +1442,7 @@ class Condeco:
             session_token (str): The opaque session access token.
             start_date (str): The start date.
             end_date (str): The end date.
-            attendence_type (int): The attendence type.
+            attendance_type (int): The attendance type.
             location_id (int): The location identifier.
 
         Returns:
@@ -1456,7 +1459,7 @@ class Condeco:
         query = f'accessToken={session_token}'
         query += f'&startDate={start_date}'
         query += f'&endDate={end_date}'
-        query += f'&attendenceType={attendence_type}'
+        query += f'&attendenceType={attendance_type}'
         query += f'&LocationId={location_id}'
 
         # Send the update attendance record request.

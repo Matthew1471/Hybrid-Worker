@@ -36,7 +36,7 @@ def bookDesk():
     response = condeco.bookDesk(
         access_token=configuration['authentication']['token'],
         session_token=configuration['authentication']['sessionToken'],
-        user_id=configuration['examples']['user_id'],
+        user_id=None,
         location_id=configuration['examples']['location_id'],
         group_id=configuration['examples']['group_id'],
         floor_id=configuration['examples']['floor_id'],
@@ -72,8 +72,8 @@ def getAttendancesRecord():
     response = condeco.getAttendancesRecord(
         access_token=configuration['authentication']['token'],
         session_token=configuration['authentication']['sessionToken'],
-        start_date=(datetime.date.today() - datetime.timedelta(7)).strftime('%d/%m/%Y'),
-        end_date=datetime.date.today().strftime('%d/%m/%Y'),
+        start_date=datetime.date.today().strftime('%d/%m/%Y'),
+        end_date=(datetime.date.today() + datetime.timedelta(7)).strftime('%d/%m/%Y'),
         user_id=configuration['examples']['user_id_other']
     )
     print(response.text)
