@@ -72,8 +72,8 @@ def getAttendancesRecord():
     response = condeco.getAttendancesRecord(
         access_token=configuration['authentication']['token'],
         session_token=configuration['authentication']['sessionToken'],
-        start_date='01/01/2024',
-        end_date='19/01/2024',
+        start_date=(datetime.date.today() - datetime.timedelta(7)).strftime('%d/%m/%Y'),
+        end_date=datetime.date.today().strftime('%d/%m/%Y'),
         user_id=configuration['examples']['user_id_other']
     )
     print(response.text)
@@ -83,8 +83,8 @@ def getColleagueBookings():
     response = condeco.getColleagueBookings(
         access_token=configuration['authentication']['token'],
         session_token=configuration['authentication']['sessionToken'],
-        start_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y'),
-        end_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y'),
+        start_date=datetime.date.today().strftime('%d/%m/%Y'),
+        end_date=(datetime.date.today() + datetime.timedelta(7)).strftime('%d/%m/%Y'),
         time_zone_id='""',
         user_id=configuration['examples']['user_id_other']
     )
