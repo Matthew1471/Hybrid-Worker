@@ -73,8 +73,8 @@ def getAttendancesRecord():
         access_token=configuration['authentication']['token'],
         session_token=configuration['authentication']['sessionToken'],
         start_date=datetime.date.today().strftime('%d/%m/%Y'),
-        end_date=(datetime.date.today() + datetime.timedelta(7)).strftime('%d/%m/%Y'),
-        user_id=configuration['examples']['user_id_other']
+        end_date=(datetime.date.today() + datetime.timedelta(14)).strftime('%d/%m/%Y'),
+        user_id=configuration['examples']['user_id']
     )
     print(response.text)
 
@@ -176,6 +176,18 @@ def searchDeskByFeatures():
     response = condeco.searchDeskByFeatures(
         access_token=configuration['authentication']['token'],
         desk_search_request_with_features=desk_search_request_with_features
+    )
+    print(response.text)
+
+def updateAttendanceRecord():
+    # updateAttendanceRecord
+    response = condeco.updateAttendanceRecord(
+        access_token=configuration['authentication']['token'],
+        session_token=configuration['authentication']['sessionToken'],
+        start_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y') + 'T00:00:00',
+        end_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y') + 'T00:00:00',
+        attendance_type=Condeco.ATTENDANCE_TYPE['OnLeave'],
+        location_id=0
     )
     print(response.text)
 

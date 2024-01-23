@@ -120,7 +120,7 @@ class Condeco:
 
         # Query parameters.
         query = f'accessToken={session_token}'
-        
+
         if user_id is not None:
             query += f'&userID={user_id}'
 
