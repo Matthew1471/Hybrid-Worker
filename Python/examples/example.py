@@ -98,16 +98,27 @@ def getMyTeams():
     )
     print(response.text)
 
-def getSessionToken():
-    # getSessionToken
-    response = condeco.getSessionToken(
+def getDeskSessionToken():
+    # getDeskSessionToken (V2)
+    response = condeco.getDeskSessionToken(
         access_token=configuration['authentication']['token']
     )
     print(response.text)
 
-def getDeskSessionToken():
-    # getDeskSessionToken (V2)
-    response = condeco.getDeskSessionToken(
+def getFloorPlan():
+    # getFloorPlan
+    response = condeco.getFloorPlan(
+        access_token=configuration['authentication']['token'],
+        session_token=configuration['authentication']['sessionToken'],
+        location_id=configuration['examples']['location_id'],
+        group_id=configuration['examples']['group_id'],
+        floor_id=configuration['examples']['floor_id'],
+    )
+    print(response.text)
+
+def getSessionToken():
+    # getSessionToken
+    response = condeco.getSessionToken(
         access_token=configuration['authentication']['token']
     )
     print(response.text)

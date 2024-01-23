@@ -1225,7 +1225,7 @@ class Condeco:
         if ws_type_id is not None:
             query += f'&WSTypeId={ws_type_id}'
 
-        # Send the release desk request.
+        # Send the desk search request.
         response = requests.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Search?{query}',
             headers=headers,
