@@ -23,6 +23,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="examples\auto_book.py" />
     <Compile Include="examples\example.py" />
     <Compile Include="src\hybrid_worker\condeco.py" />
     <Compile Include="src\hybrid_worker\__init__.py" />
