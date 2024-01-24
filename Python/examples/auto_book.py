@@ -34,11 +34,11 @@ from hybrid_worker.condeco import Condeco
 
 def book_week(condeco):
     # Add 4 weeks to the current Monday.
-    current_date = datetime.datetime.today()
-    start_of_week = (current_date.date() + datetime.timedelta(days=-current_date.weekday(), weeks=4))
+    current_date = datetime.date.today()
+    start_of_week = current_date + datetime.timedelta(days=-current_date.weekday(), weeks=4)
 
     # Gather the Monday and Friday dates to book for.
-    candidate_dates = [ start_of_week + datetime.timedelta(4), start_of_week ]
+    candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
     print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
     # Repeated failures have a 1 second back-off time.
