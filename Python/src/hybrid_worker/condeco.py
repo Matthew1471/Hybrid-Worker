@@ -42,6 +42,11 @@ class Condeco:
     # This sets a 1 minute connect and read timeout.
     TIMEOUT = 60
 
+    ACTION_TYPE = {
+        'Add':0,
+        'Remove':1
+    }
+
     ATTENDANCE_TYPE = {
         'PresentInOffice': 0,
         'WorkingFromHome': 1,
