@@ -351,7 +351,7 @@ def teamMemberOperation():
     team_member_operation_request = {
         'teamMemberOperation':{
             'SessionGuid':configuration['authentication']['sessionToken'],
-            'MemberIds': [configuration['examples']['user_id_other_3']],
+            'MemberIds': [configuration['examples']['user_id_other_2']],
             'ActionType':Condeco.ACTION_TYPE['Add']
         }
     }
