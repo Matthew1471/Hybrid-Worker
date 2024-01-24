@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
-This example provides functionality to routinely book parking with Condeco®.
+This example provides functionality to routinely book personal spaces with Condeco®.
 """
 
 # We manipulate dates.
@@ -32,22 +32,20 @@ import time
 # All the shared Condeco® functions are in this package.
 from hybrid_worker.condeco import Condeco
 
-
-def next_weekday(date, weekday):
-    days_to_add = (weekday - date.weekday()) % 7
-    return date + datetime.timedelta(days_to_add)
-
 def book_week(condeco):
+    # Add 4 weeks to the current Monday.
+    current_date = datetime.datetime.today()
+    start_of_week = (current_date.date() + datetime.timedelta(days=-current_date.weekday(), weeks=4))
+
     # Gather the Monday and Friday dates to book for.
-    today = datetime.date.today()
-    candidate_dates = [ next_weekday(today, 4), next_weekday(today, 0) ]
+    candidate_dates = [ start_of_week + datetime.timedelta(4), start_of_week ]
     print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
     # Repeated failures have a 1 second back-off time.
     last_attempt_also_failed = False
 
-    # Try for up to 60 seconds (12 * 5 second maximum delay).
-    for _ in range(12):
+    # Try for up to 120 seconds (24 * 5 second maximum delay).
+    for _ in range(24):
 
         # Leave when there is nothing further to do.
         if not candidate_dates:
@@ -171,6 +169,9 @@ def main():
             print(f'{datetime.datetime.now()} - Finished, booking completed successfully.', flush=True)
         else:
             print(f'{datetime.datetime.now()} - Finished, unable to book one or more spaces.', flush=True)
+
+        # Add a new line.
+        print(flush=True)
     # Is the user wanting to validate a validation key?
     elif configuration['authentication'].get('validation_key'):
         # Validate the validation key and return a token.
