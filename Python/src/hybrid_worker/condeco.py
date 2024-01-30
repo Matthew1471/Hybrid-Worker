@@ -30,6 +30,9 @@ It supports obtaining an authenticated session and querying the system.
 # "pip install requests" if getting import errors.
 import requests
 
+# We implement urllib3 retries.
+import urllib3.util
+
 
 class Condeco:
     """
@@ -39,8 +42,8 @@ class Condeco:
     # This creates an expected user-agent and encourages JSON responses.
     HEADERS = {'User-Agent': 'okhttp/4.10.0', 'Accept': 'application/json'}
 
-    # This sets a 1 minute connect and read timeout.
-    TIMEOUT = 60
+    # This sets a 10 second connect and read timeout.
+    TIMEOUT = 10
 
     ACTION_TYPE = {
         'Add':0,
@@ -99,6 +102,13 @@ class Condeco:
         # The Condeco® instance to interact with.
         self.unique_key = unique_key
 
+        # Using a Session means Requests supports keep-alives.
+        self.session = requests.Session()
+
+        # Retry a request multiple times.
+        max_retries = urllib3.util.Retry(allowed_methods=['GET','PUT','POST'])
+        self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=max_retries))
+
     def bookDesk(self, access_token, session_token, user_id, location_id, group_id, floor_id, desk_id, start_date):
         """
         Book a desk.
@@ -136,7 +146,7 @@ class Condeco:
         query += f'&startDate={requests.utils.quote(start_date)}'
 
         # Send the desk booking request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Book?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -164,7 +174,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the team day desk booking request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/BookReservedTeamDayDesk',
             headers=headers,
             json=book_reserved_team_day_desk_request,
@@ -193,7 +203,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the delete room booking request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/mobileapi/MobileService.svc/RoomBookings/DeleteRoomBookingWithBody',
             headers=headers,
             json=delete_booking,
@@ -231,7 +241,7 @@ class Condeco:
         query += f'&qrCode={qr_code}'
 
         # Send the desk check in request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/CheckIn?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -259,7 +269,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the create room booking request.
-        response = requests.put(
+        response = self.session.put(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/Add',
             headers=headers,
             json=add_booking,
@@ -288,7 +298,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the create team day request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/CreateMyTeamDay',
             headers=headers,
             json=create_team_day_request,
@@ -330,7 +340,7 @@ class Condeco:
         query += f'&bookingType={booking_type}'
 
         # Send the delete desk booking request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Delete?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -358,7 +368,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the cancel team day request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/CancelTeamDay',
             headers=headers,
             json=delete_team_day,
@@ -380,7 +390,7 @@ class Condeco:
         """
 
         # Send the desk authentication request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/LoginAPI/auth/authenticateusersecure',
             headers=Condeco.HEADERS,
             json=user_authentication,
@@ -399,7 +409,7 @@ class Condeco:
         """
 
         # Send the global settings request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Configuration/GetGlobalSettings',
             headers=Condeco.HEADERS,
             timeout=Condeco.TIMEOUT
@@ -417,7 +427,7 @@ class Condeco:
         """
 
         # Send the system information request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/api/systeminfo',
             headers=Condeco.HEADERS,
             timeout=Condeco.TIMEOUT
@@ -445,7 +455,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the end room booking request.
-        response = requests.put(
+        response = self.session.put(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/End',
             headers=headers,
             json=end_booking_request,
@@ -474,7 +484,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the extend room booking request.
-        response = requests.put(
+        response = self.session.put(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/Extend',
             headers=headers,
             json=extend_booking_request,
@@ -508,7 +518,7 @@ class Condeco:
         query += f'&name={name}'
 
         # Send the find colleagues request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/FindColleague?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -541,7 +551,7 @@ class Condeco:
         query += f'&locations={locations}'
 
         # Send the geofence check in request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/GeoFencingCheckIn?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -577,7 +587,7 @@ class Condeco:
         query += f'&UserId={user_id}'
 
         # Send the attendance record request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/GetAttendanceRecord?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -616,7 +626,7 @@ class Condeco:
         query += f'&userId={user_id}'
 
         # Send the colleague bookings request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/UserBookings?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -650,7 +660,7 @@ class Condeco:
             query = ''
 
         # Send the desk booking session token request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/mobileapi/MobileService.svc/User/GetSessionTokenV2?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -687,7 +697,7 @@ class Condeco:
         query += f'&floorId={floor_id}'
 
         # Send the floor plan request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/floors/Floorplan?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -724,7 +734,7 @@ class Condeco:
         query += f'&groupIds={group_ids}'
 
         # Send the desk booking session token request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/groupSettingsWithRestrictions?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -761,7 +771,7 @@ class Condeco:
         query += f'&currentCulture={current_culture}'
 
         # Send the login information request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/LoginInformationsV2?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -792,7 +802,7 @@ class Condeco:
         query = f'userlongId={user_long_id}'
 
         # Send the team request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/GetMyTeams?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -825,7 +835,7 @@ class Condeco:
         query += f'teamDayId={team_day_id}'
 
         # Send the reserved desk status request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/GetReservedDeskStatus?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -853,7 +863,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the room availabilities request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/RoomAvailability',
             headers=headers,
             json=room_request,
@@ -882,7 +892,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the room information request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/RoomInfo',
             headers=headers,
             json=room_request,
@@ -916,7 +926,7 @@ class Condeco:
         query += f'locationID={location_id}'
 
         # Send the self certification content request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertificationContent?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -949,7 +959,7 @@ class Condeco:
         query += f'locationID={location_id}'
 
         # Send the self certification status request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertificationStatus?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -976,7 +986,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the session token request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/mobileapi/MobileService.svc/User/GetSessionToken',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -994,7 +1004,7 @@ class Condeco:
         """
 
         # Send the global settings request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/mobileapi/MobileService.svc/Configuration/GetGlobalSettings',
             headers=Condeco.HEADERS,
             timeout=Condeco.TIMEOUT
@@ -1039,7 +1049,7 @@ class Condeco:
         query += f'&pageIndex={page_index}'
 
         # Send the booking information request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/MyBookings/ListV2?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -1060,7 +1070,7 @@ class Condeco:
         """
 
         # Send the login request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/LoginWithMagicLink',
             headers=Condeco.HEADERS,
             json={'validationKey':validation_key},
@@ -1096,7 +1106,7 @@ class Condeco:
         query += f'&deskID={desk_id}'
 
         # Send the release desk request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Release?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -1124,7 +1134,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the room search request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/mobileapi/MobileService.svc/RoomBookings/RoomSearch',
             headers=headers,
             json=room_search_criteria,
@@ -1153,7 +1163,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the room search request with features.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/RoomSearchByFeatures',
             headers=headers,
             json=room_search_request_with_features,
@@ -1182,7 +1192,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the save default settings request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/SaveDefaultSettingsV2',
             headers=headers,
             json=settings_request,
@@ -1233,7 +1243,7 @@ class Condeco:
             query += f'&WSTypeId={ws_type_id}'
 
         # Send the desk search request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Search?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -1261,7 +1271,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the room search request with features.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/SearchAllByRoomFeatures',
             headers=headers,
             json=room_search_request_with_features,
@@ -1290,7 +1300,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the desk search request with features.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/DeskSearchByFeatures',
             headers=headers,
             json=desk_search_request_with_features,
@@ -1319,7 +1329,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the self certify user request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertifyUser',
             headers=headers,
             json=self_certify_user_request,
@@ -1341,7 +1351,7 @@ class Condeco:
         """
 
         # Send the magic link request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/SendMagicLink',
             headers=Condeco.HEADERS,
             json={'email':email},
@@ -1370,7 +1380,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the start room booking request.
-        response = requests.put(
+        response = self.session.put(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/Start',
             headers=headers,
             json=start_booking_request,
@@ -1399,7 +1409,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the team day response.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/TeamDayAcceptDecline',
             headers=headers,
             json=team_day_accept_decline_request,
@@ -1428,7 +1438,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the team member operation request.
-        response = requests.post(
+        response = self.session.post(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/TeamMemberOperation',
             headers=headers,
             json=team_member_operation_request,
@@ -1468,7 +1478,7 @@ class Condeco:
         query += f'&LocationId={location_id}'
 
         # Send the update attendance record request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/UpdateAttendanceRecord?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
@@ -1496,7 +1506,7 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Send the update room booking request.
-        response = requests.put(
+        response = self.session.put(
             url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/RoomBookings/Update',
             headers=headers,
             json=update_booking_request,
@@ -1536,7 +1546,7 @@ class Condeco:
         query += f'&floorID={floor_id}'
 
         # Send the update default settings request.
-        response = requests.get(
+        response = self.session.get(
             url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SaveDefaultSettings?{query}',
             headers=headers,
             timeout=Condeco.TIMEOUT
