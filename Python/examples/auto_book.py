@@ -33,15 +33,15 @@ import time
 from hybrid_worker.condeco import Condeco
 
 def book_week(condeco):
-    # Add 4 weeks to the current Monday.
+    # Add 3 weeks to the current Monday.
     current_date = datetime.date.today()
-    start_of_week = current_date + datetime.timedelta(days=-current_date.weekday(), weeks=4)
+    start_of_week = current_date + datetime.timedelta(days=-current_date.weekday(), weeks=3)
 
     # Gather the Monday and Friday dates to book for.
     candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
     print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
-    # Repeated failures have a 1 second back-off time.
+    # Repeated failures have a 5 second back-off time.
     last_attempt_also_failed = False
 
     # Try for up to 120 seconds (24 * 5 second maximum delay).
