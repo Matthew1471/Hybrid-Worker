@@ -376,7 +376,7 @@ def updateAttendanceRecord():
 
 def updateBooking():
     # updateBooking
-    update_booking = {
+    update_booking_request = {
         'token':configuration['authentication']['sessionToken'],
         'sessionGuid':configuration['authentication']['sessionToken'],
         'UserID':configuration['authentication']['sessionToken'],
@@ -394,7 +394,7 @@ def updateBooking():
 
     response = condeco.updateBooking(
         access_token=configuration['authentication']['token'],
-        update_booking=update_booking
+        update_booking_request=update_booking_request
     )
     print(response.text)
 
