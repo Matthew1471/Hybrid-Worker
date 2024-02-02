@@ -134,20 +134,20 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-
-        if user_id is not None:
-            query += f'&userID={user_id}'
-
-        query += f'&locationID={location_id}'
-        query += f'&groupID={group_id}'
-        query += f'&floorID={floor_id}'
-        query += f'&deskID={desk_id}'
-        query += f'&startDate={requests.utils.quote(start_date)}'
+        params = {
+            'accessToken': session_token,
+            'userID': int(user_id) if user_id is not None else None,
+            'locationID' : int(location_id),
+            'groupID' : int(group_id),
+            'floorID': int(floor_id),
+            'deskID': int(desk_id),
+            'startDate': start_date
+        }
 
         # Send the desk booking request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Book?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Book',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -235,14 +235,17 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&locationID={location_id}'
-        query += f'&deskID={desk_id}'
-        query += f'&qrCode={qr_code}'
+        params = {
+            'accessToken': session_token,
+            'locationID': int(location_id),
+            'deskID': int(desk_id),
+            'qrCode': int(qr_code)
+        }
 
         # Send the desk check in request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/CheckIn?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/CheckIn',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -332,16 +335,19 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&bookingID={booking_id}'
-        query += f'&deskID={desk_id}'
-        query += f'&startDate={requests.utils.quote(start_date)}'
-        query += f'&endDate={requests.utils.quote(end_date)}'
-        query += f'&bookingType={booking_type}'
+        params = {
+            'accessToken': session_token,
+            'bookingID': int(booking_id),
+            'deskID': int(desk_id),
+            'startDate': start_date,
+            'endDate': end_date,
+            'bookingType': int(booking_type)
+        }
 
         # Send the delete desk booking request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Delete?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Delete',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -514,12 +520,15 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&name={name}'
+        params = {
+            'accessToken': session_token,
+            'name': name
+        }
 
         # Send the find colleagues request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/FindColleague?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/FindColleague',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -547,12 +556,15 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&locations={locations}'
+        params = {
+            'accessToken': session_token,
+            'locations': locations
+        }
 
         # Send the geofence check in request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/GeoFencingCheckIn?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/GeoFencingCheckIn',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -581,14 +593,17 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&startDate={start_date}'
-        query += f'&endDate={end_date}'
-        query += f'&UserId={user_id}'
+        params = {
+            'accessToken': session_token,
+            'startDate': start_date,
+            'endDate': end_date,
+            'UserId': int(user_id)
+        }
 
         # Send the attendance record request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/GetAttendanceRecord?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/GetAttendanceRecord',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -619,15 +634,18 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&startDate={start_date}'
-        query += f'&endDate={end_date}'
-        query += f'&timeZoneID={time_zone_id}'
-        query += f'&userId={user_id}'
+        params = {
+            'accessToken': session_token,
+            'startDate': start_date,
+            'endDate': end_date,
+            'timeZoneID': time_zone_id,
+            'userId': int(user_id)
+        }
 
         # Send the colleague bookings request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/UserBookings?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/UserBookings',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -655,13 +673,14 @@ class Condeco:
 
         # Query parameters.
         if current_culture is not None:
-            query = f'currentCulture={current_culture}'
+            params = {'currentCulture': current_culture}
         else:
-            query = ''
+            params = None
 
         # Send the desk booking session token request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/mobileapi/MobileService.svc/User/GetSessionTokenV2?{query}',
+            url=f'https://{self.unique_key}/mobileapi/MobileService.svc/User/GetSessionTokenV2',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -691,14 +710,17 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&locationId={location_id}'
-        query += f'&groupId={group_id}'
-        query += f'&floorId={floor_id}'
+        params = {
+            'accessToken': session_token,
+            'locationId': int(location_id),
+            'groupId': int(group_id),
+            'floorId': int(floor_id)
+        }
 
         # Send the floor plan request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/floors/Floorplan?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/floors/Floorplan',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -728,14 +750,17 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&bookingForUserId={booking_for_user_id}'
-        query += f'&locationId={location_id}'
-        query += f'&groupIds={group_ids}'
+        params = {
+            'accessToken': session_token,
+            'bookingForUserId': int(booking_for_user_id),
+            'locationId': int(location_id),
+            'groupIds': group_ids
+        }
 
         # Send the desk booking session token request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/groupSettingsWithRestrictions?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/groupSettingsWithRestrictions',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -765,14 +790,17 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'token={session_token}'
-        query += f'&languageId={language_id}'
-        query += f'&currentDateTime={current_date_time}'
-        query += f'&currentCulture={current_culture}'
+        params = {
+            'token': session_token,
+            'languageId': int(language_id),
+            'currentDateTime': current_date_time,
+            'currentCulture': current_culture
+        }
 
         # Send the login information request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/LoginInformationsV2?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/User/LoginInformationsV2',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -786,7 +814,7 @@ class Condeco:
 
         Args:
             access_token (str): The JWT proving authorisation.
-            user_long_id (int): The user identification number to find team information for.
+            user_long_id (str): The user identification number to find team information for.
 
         Returns:
             Response: The full response object.
@@ -799,11 +827,12 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'userlongId={user_long_id}'
+        params = {'userlongId': user_long_id}
 
         # Send the team request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/GetMyTeams?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/GetMyTeams',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -817,7 +846,7 @@ class Condeco:
 
         Args:
             access_token (str): The JWT proving authorisation.
-            user_long_id (int): The user identification number to find reserved desk information for.
+            user_long_id (str): The user identification number to find reserved desk information for.
             team_day_id (int): The team day identification number.
 
         Returns:
@@ -831,12 +860,15 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'userlongId={user_long_id}'
-        query += f'teamDayId={team_day_id}'
+        params = {
+            'userlongId': user_long_id,
+            'teamDayId': int(team_day_id)
+        }
 
         # Send the reserved desk status request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/GetReservedDeskStatus?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/team/GetReservedDeskStatus',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -922,12 +954,15 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'locationID={location_id}'
+        params = {
+            'accessToken': session_token,
+            'locationID': int(location_id)
+        }
 
         # Send the self certification content request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertificationContent?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertificationContent',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -955,12 +990,15 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'locationID={location_id}'
+        params = {
+            'accessToken': session_token,
+            'locationID': int(location_id)
+        }
 
         # Send the self certification status request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertificationStatus?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SelfCertificationStatus',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -1024,7 +1062,7 @@ class Condeco:
             desk_start_date (str): The desk start date.
             desk_end_date (str): The desk end date.
             room_start_date (str): The room start date.
-            time_zone_id (str): The time zone identifier.
+            time_zone_id (int): The time zone identifier.
             page_size (int): The number of records on each page.
             page_index (int): The page number to request.
 
@@ -1039,18 +1077,21 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'sessionGuid={session_token}'
-        query += f'&languageId={language_id}'
-        query += f'&deskStartDate={desk_start_date}'
-        query += f'&deskEndDate={desk_end_date}'
-        query += f'&roomStartDate={room_start_date}'
-        query += f'&timeZoneID={time_zone_id}'
-        query += f'&pageSize={page_size}'
-        query += f'&pageIndex={page_index}'
+        params = {
+            'sessionGuid': session_token,
+            'languageId': int(language_id),
+            'deskStartDate': desk_start_date,
+            'deskEndDate': desk_end_date,
+            'roomStartDate': room_start_date,
+            'timeZoneID': int(time_zone_id),
+            'pageSize': int(page_size),
+            'pageIndex': int(page_index)
+        }
 
         # Send the booking information request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/MyBookings/ListV2?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/MobileService.svc/MyBookings/ListV2',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -1101,13 +1142,16 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&locationID={location_id}'
-        query += f'&deskID={desk_id}'
+        params = {
+            'accessToken': session_token,
+            'locationID': int(location_id),
+            'deskID': int(desk_id)
+        }
 
         # Send the release desk request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Release?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Release',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -1228,23 +1272,21 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-
-        if user_id is not None:
-            query += f'&userId={user_id}'
-
-        query += f'&locationID={location_id}'
-        query += f'&groupId={group_id}'
-        query += f'&floorId={floor_id}'
-        query += f'&startDate={start_date}'
-        query += f'&bookingType={booking_type}'
-
-        if ws_type_id is not None:
-            query += f'&WSTypeId={ws_type_id}'
+        params = {
+            'accessToken': session_token,
+            'userId': int(user_id) if user_id is not None else None,
+            'locationID': int(location_id),
+            'groupId': int(group_id),
+            'floorId': int(floor_id),
+            'startDate': start_date,
+            'bookingType': int(booking_type),
+            'WSTypeId': int(ws_type_id) if ws_type_id is not None else None
+        }
 
         # Send the desk search request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Search?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/Search',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -1471,15 +1513,18 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&startDate={start_date}'
-        query += f'&endDate={end_date}'
-        query += f'&attendenceType={attendance_type}'
-        query += f'&LocationId={location_id}'
+        params = {
+            'accessToken': session_token,
+            'startDate': start_date,
+            'endDate': end_date,
+            'attendenceType': int(attendance_type),
+            'LocationId': int(location_id)
+        }
 
         # Send the update attendance record request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/UpdateAttendanceRecord?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/UpdateAttendanceRecord',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
@@ -1493,7 +1538,7 @@ class Condeco:
 
         Args:
             access_token (str): The JWT access token for authentication.
-            update_booking (str): The request to update the room booking.
+            update_booking_request (str): The request to update the room booking.
 
         Returns:
             Response: The full response object.
@@ -1539,15 +1584,18 @@ class Condeco:
         headers['Authorization'] = f'Bearer {access_token}'
 
         # Query parameters.
-        query = f'accessToken={session_token}'
-        query += f'&countryID={country_id}'
-        query += f'&locationID={location_id}'
-        query += f'&groupID={group_id}'
-        query += f'&floorID={floor_id}'
+        params = {
+            'accessToken': session_token,
+            'countryID': int(country_id),
+            'locationID': int(location_id),
+            'groupID': int(group_id),
+            'floorID': int(floor_id)
+        }
 
         # Send the update default settings request.
         response = self.session.get(
-            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SaveDefaultSettings?{query}',
+            url=f'https://{self.unique_key}/MobileAPI/DeskBookingService.svc/SaveDefaultSettings',
+            params=params,
             headers=headers,
             timeout=Condeco.TIMEOUT
         )
