@@ -26,6 +26,9 @@ import datetime
 # This script makes heavy use of JSON parsing.
 import json
 
+# We handle connection errors.
+import requests
+
 # We delay.
 import time
 
@@ -57,20 +60,27 @@ def book_week(condeco):
         # Notify user.
         print(f'{datetime.datetime.now()} - Booking for {candidate_date}:', flush=True)
 
-        # Attempt to book.
-        if book_single_day(condeco, candidate_date):
-            # This was a success, perhaps the new slots have just been released.
-            last_attempt_also_failed = False
-        else:
-            # We will come back to this date.
-            candidate_dates.append(candidate_date)
+        try:
+            # Attempt to book.
+            if book_single_day(condeco, candidate_date):
+                # This was a success, perhaps the new slots have just been released.
+                last_attempt_also_failed = False
+            else:
+                # We will come back to this date.
+                candidate_dates.append(candidate_date)
 
-            # Wait 5 seconds.
-            if last_attempt_also_failed:
-                time.sleep(5)
+                # Wait 5 seconds.
+                if last_attempt_also_failed:
+                    time.sleep(5)
 
-            # Tell the next attempt that this attempt failed.
-            last_attempt_also_failed = True
+                # Tell the next attempt that this attempt failed.
+                last_attempt_also_failed = True
+        except requests.exceptions.ConnectionError:
+                # Notify the user.
+                print(f'{datetime.datetime.now()} -  * Failure due to repeated connection errors.', flush=True)
+
+                # We will come back to this date.
+                candidate_dates.append(candidate_date)
 
         # Add a new line.
         print(flush=True)
