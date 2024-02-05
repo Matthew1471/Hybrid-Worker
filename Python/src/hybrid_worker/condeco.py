@@ -22,6 +22,9 @@ This module provides classes and methods for interacting with the Condeco® soft
 It supports obtaining an authenticated session and querying the system.
 """
 
+# We reject cookies.
+import http.cookiejar
+
 # We can check JWT claims/expiration first before making a request
 # ("pip install pyjwt" if not already installed).
 #import jwt
@@ -108,6 +111,9 @@ class Condeco:
         # Retry a request multiple times.
         max_retries = urllib3.util.Retry(allowed_methods=['GET','PUT','POST'])
         self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=max_retries))
+        
+        # Do not accept any cookies (especially ARRAffinity).
+        self.session.cookies.set_policy(http.cookiejar.DefaultCookiePolicy(allowed_domains=[]))
 
     def bookDesk(self, access_token, session_token, user_id, location_id, group_id, floor_id, desk_id, start_date):
         """
