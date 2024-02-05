@@ -111,7 +111,7 @@ class Condeco:
         # Retry a request multiple times.
         max_retries = urllib3.util.Retry(allowed_methods=['GET','PUT','POST'])
         self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=max_retries))
-        
+
         # Do not accept any cookies (especially ARRAffinity).
         self.session.cookies.set_policy(http.cookiejar.DefaultCookiePolicy(allowed_domains=[]))
 
