@@ -45,8 +45,8 @@ class Condeco:
     # This creates an expected user-agent and encourages JSON responses.
     HEADERS = {'User-Agent': 'okhttp/4.10.0', 'Accept': 'application/json'}
 
-    # This sets a 10 second connect and read timeout.
-    TIMEOUT = 10
+    # This sets a 5 second connect and read timeout.
+    TIMEOUT = 5
 
     ACTION_TYPE = {
         'Add':0,
