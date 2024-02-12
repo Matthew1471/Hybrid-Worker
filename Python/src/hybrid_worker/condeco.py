@@ -27,7 +27,7 @@ import http.cookiejar
 
 # We can check JWT claims/expiration first before making a request
 # ("pip install pyjwt" if not already installed).
-#import jwt
+import jwt
 
 # Third party library for making HTTP(S) requests;
 # "pip install requests" if getting import errors.
@@ -49,8 +49,8 @@ class Condeco:
     TIMEOUT = 5
 
     ACTION_TYPE = {
-        'Add':0,
-        'Remove':1
+        'Add': 0,
+        'Remove': 1
     }
 
     ATTENDANCE_TYPE = {
@@ -114,6 +114,31 @@ class Condeco:
 
         # Do not accept any cookies (especially ARRAffinity).
         self.session.cookies.set_policy(http.cookiejar.DefaultCookiePolicy(allowed_domains=[]))
+        
+    @staticmethod
+    def decode_jwt(token, audience=None):
+        # While the signature itself is not verified, we enforce required fields and validate
+        # "iss", "exp", "iat" and "nbf" values.
+        options = {
+            'verify_signature': False,
+            'require': ['id', 'username', 'passwordless', 'role', 'iss', 'aud', 'exp', 'nbf'],
+            'verify_iss': True,
+            'verify_exp': True,
+            'verify_iat': True,
+            'verify_nbf': True
+        }
+        
+        # Audience validation is optional.
+        if audience:
+            options['verify_aud'] = True
+
+        # Return token payload (if valid).
+        return jwt.decode(
+            jwt=token,
+            options=options,
+            audience=audience,
+            issuer='CondecoPasswordless'
+        )
 
     def bookDesk(self, access_token, session_token, user_id, location_id, group_id, floor_id, desk_id, start_date):
         """
