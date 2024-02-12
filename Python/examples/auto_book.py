@@ -35,21 +35,7 @@ import time
 # All the shared Condeco® functions are in this package.
 from hybrid_worker.condeco import Condeco
 
-def book_week(condeco):
-    # Add 3 weeks to the current Monday.
-    current_date = datetime.date.today()
-    start_of_week = current_date + datetime.timedelta(days=-current_date.weekday(), weeks=3)
-
-    # Gather the Monday and Friday dates to book for.
-    candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
-    print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
-
-    # Check JWT.
-    decoded_jwt = Condeco.decode_jwt(configuration['authentication']['token'])
-    expiry_date = datetime.datetime.fromtimestamp(decoded_jwt['exp'])
-    time_delta = expiry_date - datetime.datetime.now()
-    print(f'{datetime.datetime.now()} - Token expires in {time_delta}.\n', flush=True)
-
+def book_week(condeco, candidate_dates):
     # Try for around 120 seconds (server delay/retries make it longer).
     for _ in range(120):
 
@@ -173,8 +159,22 @@ def main():
 
     # Do we already have a token to use the app?
     if configuration['authentication'].get('token'):
+        # Add 3 weeks to the current Monday.
+        current_date = datetime.date.today()
+        start_of_week = current_date + datetime.timedelta(days=-current_date.weekday(), weeks=3)
+
+        # Gather the Monday and Friday dates to book for.
+        candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
+        print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
+
+        # Check JWT.
+        decoded_jwt = Condeco.decode_jwt(configuration['authentication']['token'])
+        expiry_date = datetime.datetime.fromtimestamp(decoded_jwt['exp'])
+        time_delta = expiry_date - datetime.datetime.now()
+        print(f'{datetime.datetime.now()} - Token expires in {time_delta}.\n', flush=True)
+
         # Perform the booking attempts.
-        if book_week(condeco):
+        if book_week(condeco=condeco, candidate_dates=candidate_dates):
             print(f'{datetime.datetime.now()} - Finished, booking completed successfully.', flush=True)
         else:
             print(f'{datetime.datetime.now()} - Finished, unable to book one or more spaces.', flush=True)
