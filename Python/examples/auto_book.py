@@ -44,11 +44,8 @@ def book_week(condeco):
     candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
     print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
-    # Repeated failures have a 5 second back-off time.
-    last_attempt_also_failed = False
-
-    # Try for up to 120 seconds (24 * 5 second maximum delay).
-    for _ in range(24):
+    # Try for around 120 seconds (server retries can make it slightly longer).
+    for _ in range(120):
 
         # Leave when there is nothing further to do.
         if not candidate_dates:
@@ -62,19 +59,12 @@ def book_week(condeco):
 
         try:
             # Attempt to book.
-            if book_single_day(condeco, candidate_date):
-                # This was a success, perhaps the new slots have just been released.
-                last_attempt_also_failed = False
-            else:
+            if not book_single_day(condeco, candidate_date):
                 # We will come back to this date.
                 candidate_dates.append(candidate_date)
 
-                # Wait 5 seconds.
-                if last_attempt_also_failed:
-                    time.sleep(5)
-
-                # Tell the next attempt that this attempt failed.
-                last_attempt_also_failed = True
+                # Wait 1 second.
+                time.sleep(1)
         except requests.exceptions.ConnectionError:
                 # Notify the user.
                 print(f'{datetime.datetime.now()} -  * Failure due to repeated connection errors.', flush=True)
@@ -89,6 +79,9 @@ def book_week(condeco):
     return False
 
 def book_single_day(condeco, candidate_date):
+    # Format candidate_date.
+    date_string = candidate_date.strftime('%d/%m/%Y')
+
     # searchDeskByFeatures
     desk_search_request_with_features = {
         'accessToken':configuration['authentication']['sessionToken'],
@@ -96,7 +89,7 @@ def book_single_day(condeco, candidate_date):
         'groupID':configuration['auto_book']['group_id'],
         'floorID':configuration['auto_book']['floor_id'],
         'bookingType':Condeco.BOOKING_TYPE['None'],
-        'startDate':candidate_date.strftime('%d/%m/%Y'),
+        'startDate':date_string,
         'userID':configuration['auto_book']['user_id'],
         'deskAttributes':[],
         'wsTypeID':configuration['auto_book']['ws_type_id']
@@ -123,11 +116,11 @@ def book_single_day(condeco, candidate_date):
             print(f'{datetime.datetime.now()} -  * Attempting to book "{desk["DeskName"]}" (#{desk["DeskID"]}).', flush=True)
 
             # Attempt booking.
-            if book_desk(condeco, candidate_date, desk['DeskID']):
+            if book_desk(condeco, date_string, desk['DeskID']):
                 # We now have a booking for this day.
                 return True
 
-def book_desk(condeco, date, desk_id):
+def book_desk(condeco, date_string, desk_id):
     # bookDesk
     response = condeco.bookDesk(
         access_token=configuration['authentication']['token'],
@@ -137,7 +130,7 @@ def book_desk(condeco, date, desk_id):
         group_id=configuration['auto_book']['group_id'],
         floor_id=configuration['auto_book']['floor_id'],
         desk_id=desk_id,
-        start_date=date.strftime('%d/%m/%Y') + '|' + str(Condeco.BOOKING_TYPE['AllDay'])
+        start_date=date_string + '|' + str(Condeco.BOOKING_TYPE['AllDay'])
     )
 
     # Parse the response as JSON.
