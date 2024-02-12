@@ -84,15 +84,15 @@ def book_single_day(condeco, candidate_date):
 
     # searchDeskByFeatures
     desk_search_request_with_features = {
-        'accessToken':configuration['authentication']['sessionToken'],
-        'locationID':configuration['auto_book']['location_id'],
-        'groupID':configuration['auto_book']['group_id'],
-        'floorID':configuration['auto_book']['floor_id'],
-        'bookingType':Condeco.BOOKING_TYPE['None'],
-        'startDate':date_string,
-        'userID':configuration['auto_book']['user_id'],
-        'deskAttributes':[],
-        'wsTypeID':configuration['auto_book']['ws_type_id']
+        'accessToken': configuration['authentication']['sessionToken'],
+        'locationID': configuration['auto_book']['location_id'],
+        'groupID': configuration['auto_book']['group_id'],
+        'floorID': configuration['auto_book']['floor_id'],
+        'bookingType': Condeco.BOOKING_TYPE['None'],
+        'startDate': date_string,
+        'userID': configuration['auto_book']['user_id'],
+        'deskAttributes': [],
+        'wsTypeID': configuration['auto_book']['ws_type_id']
     }
 
     response = condeco.searchDeskByFeatures(
