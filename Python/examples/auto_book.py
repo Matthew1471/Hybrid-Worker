@@ -44,6 +44,12 @@ def book_week(condeco):
     candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
     print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
+    # Check JWT.
+    decoded_jwt = Condeco.decode_jwt(configuration['authentication']['token'])
+    expiry_date = datetime.datetime.fromtimestamp(decoded_jwt['exp'])
+    time_delta = expiry_date - datetime.datetime.now()
+    print(f'{datetime.datetime.now()} - Token expires in {time_delta}.\n', flush=True)
+
     # Try for around 120 seconds (server delay/retries make it longer).
     for _ in range(120):
 
