@@ -44,7 +44,7 @@ def book_week(condeco):
     candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
     print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
-    # Try for around 120 seconds (server retries can make it slightly longer).
+    # Try for around 120 seconds (server delay/retries make it longer).
     for _ in range(120):
 
         # Leave when there is nothing further to do.
