@@ -131,7 +131,11 @@ def book_desk(condeco, date_string, desk_id):
     # Did it get booked?
     if response_json['CallResponse']['ResponseCode'] == 100:
         # Succeeded.
-        print(f'{datetime.datetime.now()} -  * Booked #{response_json["CreatedBookings"][0]["BookingID"]}.', flush=True)
+        if len(response_json["CreatedBookings"]) > 0:
+            print(f'{datetime.datetime.now()} -  * Booked #{response_json["CreatedBookings"][0]["BookingID"]}.', flush=True)
+        else:
+            # Sometimes API does not return booking details.
+            print(f'{datetime.datetime.now()} -  * Booked.', flush=True)
         return True
     else:
         # Failure.
