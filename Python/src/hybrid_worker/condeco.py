@@ -1594,7 +1594,7 @@ class Condeco:
 
     def updateDefaultSettings(self, access_token, session_token, country_id, location_id, group_id, floor_id):
         """
-        Update attendance record.
+        Update default desk booking settings.
 
         Args:
             access_token (str): The JWT proving authorisation.
