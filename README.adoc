@@ -35,7 +35,7 @@ Hybrid-Worker is a project providing an API wrapper for desk and room booking so
 
 This project is focusing primarily on the Condeco(R) Software.
 
-WARNING: This project currently predominantly consumes the same API that the mobile application consumes and Eptura(R) may choose to change it in subsequent updates without warning.
+WARNING: This project currently predominantly consumes the same API that the mobile application consumes and Eptura(TM) may choose to change it in subsequent updates without warning.
 
 == Documentation
 
@@ -77,7 +77,7 @@ Upon a final run, a `token` and `sessionToken` should be provided in exchange fo
 }
 ```
 
-There is no harm in leaving the other keys such as `email`, `validation_key` present in the `credentials.json` as they will be ignored so long as `token` is present. They are removed above for brevity.
+There is no harm in leaving the other keys such as `email` and `validation_key` present in the `credentials.json` as they will be ignored so long as `token` is present. They are removed above for brevity.
 
 The examples expect other sections in `credentials.json`:
 
