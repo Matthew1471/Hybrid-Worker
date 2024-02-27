@@ -1,0 +1,152 @@
+= Hybrid-Worker
+:toc:
+Matthew1471 <https://github.com/matthew1471[@Matthew1471]>;
+
+// Document Settings:
+
+// Set the ID Prefix and ID Separators to be consistent with GitHub so links work irrespective of rendering platform. (https://docs.asciidoctor.org/asciidoc/latest/sections/id-prefix-and-separator/)
+:idprefix:
+:idseparator: -
+
+// Any code examples will be in Python by default.
+:source-language: python
+
+ifndef::env-github[:icons: font]
+
+// Set the admonitions to have icons (Github Emojis) if rendered on GitHub (https://blog.mrhaki.com/2016/06/awesome-asciidoctor-using-admonition.html).
+ifdef::env-github[]
+:status:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+// Document Variables:
+:release-version: 1.0
+:url-org: https://github.com/Matthew1471
+:url-repo: {url-org}/Hybrid-Worker
+:url-contributors: {url-repo}/graphs/contributors
+
+== Introduction
+
+Hybrid-Worker is a project providing an API wrapper for desk and room booking software.
+
+This project is focusing primarily on the Condeco(R) Software.
+
+WARNING: This project currently predominantly consumes the same API that the mobile application consumes and Eptura(R) may choose to change it in subsequent updates without warning.
+
+== Documentation
+
+Inside the `Python` folder is the `src` for the library and an `examples` folder.
+
+The examples reference a `credentials.json` file which contains the authentication information and parameters for the examples.
+
+The `authentication` section is where the credentials go. Initially it may look something like this:
+
+```
+{
+    "authentication": {
+        "email": "John.Doe@MyCompany.com",
+        "unique_key": "MyCompany.CondecoSoftware.com"
+    }
+}
+```
+
+This, when the examples are run, will trigger an authentication code to be sent to the specified e-mail address, which should then be stored in the `credentials.json` like so (the `email` address will be ignored when a `validation_key` is present):
+
+```
+{
+    "authentication": {
+        "unique_key": "MyCompany.CondecoSoftware.com",
+        "validation_key": "gDv6diVKLmoSVbasjaSAPh+1PbgcQAhN/thQYJHluwgE4J0KWOz22e2iAwXzfxR"
+    }
+}
+```
+
+Upon a final run, a `token` and `sessionToken` should be provided in exchange for the `validation_key` so the `credentials.json` can now look like this:
+
+```
+{
+    "authentication": {
+        "sessionToken": "a1b23c45-d97e-4d72-abec-8dd08a0b9a4d",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImExYjIzYzQ1LWQ5N2UtNGQ3Mi1hYmVjLThkZDA4YTBiOWE0ZCIsInVzZXJuYW1lIjoiMTIzNDUiLCJwYXNzd29yZGxlc3MiOiIxIiwicm9sZSI6InVzZXIiLCJpc3MiOiJDb25kZWNvUGFzc3dvcmRsZXNzIiwiYXVkIjoiMWFiMmNkM2U0NTY3OGFiNWIwYWZjODYzNGFlMjgzMzQiLCJleHAiOjE3MTM0NzM1NjgsIm5iZiI6MTcwNTMwMDU2OH0.AAAJm4iufqWRQkJsxUc4DihQj1sz_m0IpqqRYwmmAaQ",
+        "unique_key": "MyCompany.CondecoSoftware.com"
+    }
+}
+```
+
+There is no harm in leaving the other keys such as `email`, `validation_key` present in the `credentials.json` as they will be ignored so long as `token` is present. They are removed above for brevity.
+
+The examples expect other sections in `credentials.json`:
+
+* An `auto_book` section is used by the `auto_book.py` example. +
+* An `examples` section is used by the `example.py` example.
+
+Eventually the `credentials.json` could look like this:
+
+```
+{
+    "authentication": {
+        "email": "John.Doe@MyCompany.com",
+        "sessionToken": "a1b23c45-d97e-4d72-abec-8dd08a0b9a4d",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImExYjIzYzQ1LWQ5N2UtNGQ3Mi1hYmVjLThkZDA4YTBiOWE0ZCIsInVzZXJuYW1lIjoiMTIzNDUiLCJwYXNzd29yZGxlc3MiOiIxIiwicm9sZSI6InVzZXIiLCJpc3MiOiJDb25kZWNvUGFzc3dvcmRsZXNzIiwiYXVkIjoiMWFiMmNkM2U0NTY3OGFiNWIwYWZjODYzNGFlMjgzMzQiLCJleHAiOjE3MTM0NzM1NjgsIm5iZiI6MTcwNTMwMDU2OH0.AAAJm4iufqWRQkJsxUc4DihQj1sz_m0IpqqRYwmmAaQ",
+        "unique_key": "MyCompany.CondecoSoftware.com",
+        "validation_key": "gDv6diVKLmoSVbasjaSAPh+1PbgcQAhN/thQYJHluwgE4J0KWOz22e2iAwXzfxR"
+    },
+    "auto_book": {
+        "floor_id": 1,
+        "group_id": 1,
+        "location_id": 1,
+        "user_id": 1,
+        "ws_type_id": 1
+    },
+    "examples": {
+        "booking_id": 1,
+        "desk_id": 1,
+        "floor_id": 1,
+        "group_id": 1,
+        "location_id": 1,
+        "name": "Cory Ellison",
+        "room_booking_id": 1,
+        "room_id": 1,
+        "user_id": 1,
+        "user_id_other": 1,
+        "user_id_other_2": 1,
+        "ws_type_id": 1
+    }
+}
+```
+
+The `example.py` script has a series of commented out functions which can be used to obtain the relevant ID numbers for your Condeco(R) instance.
+
+== Copyright and License
+
+Copyright (C) 2024  Matthew1471
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+== Authors
+
+*Hybrid-Worker* is led by https://github.com/Matthew1471[Matthew1471] and may have received contributions from {url-contributors}[other individuals] in GitHub's awesome community.
+The project was initiated in 2024 by https://github.com/Matthew1471[Matthew1471] after having his employer mandate return to the office with fewer spaces than people.
+
+== Trademarks
+
+Condeco(R) is a trademark of Eptura(TM).
+
+All trademarks are the property of their respective owners.
+
+Any trademarks used in this project are used in a purely descriptive manner and to state compatability.
