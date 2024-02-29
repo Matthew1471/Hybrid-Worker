@@ -41,9 +41,9 @@ WARNING: This project currently predominantly consumes the same API that the mob
 
 Inside the `Python` folder is the `src` for the library and an `examples` folder.
 
-The examples reference a `credentials.json` file which contains the authentication information and parameters for the examples.
+The examples reference a `configuration.json` file which contains the authentication information and parameters for the examples.
 
-The `authentication` section is where the credentials go. Initially it may look something like this:
+The `authentication` section is where the configuration goes. Initially it may look something like this:
 
 ```
 {
@@ -54,7 +54,7 @@ The `authentication` section is where the credentials go. Initially it may look 
 }
 ```
 
-This, when the examples are run, will trigger an authentication code to be sent to the specified e-mail address, which should then be stored in the `credentials.json` like so (the `email` address will be ignored when a `validation_key` is present):
+This, when the examples are run, will trigger an authentication code to be sent to the specified e-mail address, which should then be stored in the `configuration.json` like so (the `email` address will be ignored when a `validation_key` is present):
 
 ```
 {
@@ -65,7 +65,7 @@ This, when the examples are run, will trigger an authentication code to be sent 
 }
 ```
 
-Upon a final run, a `token` and `sessionToken` should be provided in exchange for the `validation_key` so the `credentials.json` can now look like this:
+Upon a final run, a `token` and `sessionToken` should be provided in exchange for the `validation_key` so the `configuration.json` can now look like this:
 
 ```
 {
@@ -77,14 +77,14 @@ Upon a final run, a `token` and `sessionToken` should be provided in exchange fo
 }
 ```
 
-There is no harm in leaving the other keys such as `email` and `validation_key` present in the `credentials.json` as they will be ignored so long as `token` is present. They are removed above for brevity.
+There is no harm in leaving the other keys such as `email` and `validation_key` present in the `configuration.json` as they will be ignored so long as `token` is present. They are removed above for brevity.
 
-The examples expect other sections in `credentials.json`:
+The examples expect other sections in `configuration.json`:
 
 * An `auto_book` section is used by the `auto_book.py` example. +
 * An `examples` section is used by the `example.py` example.
 
-Eventually the `credentials.json` could look like this:
+Eventually the `configuration.json` could look like this:
 
 ```
 {
