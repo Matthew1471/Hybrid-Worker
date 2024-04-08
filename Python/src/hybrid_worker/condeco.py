@@ -45,8 +45,8 @@ class Condeco:
     # This creates an expected user-agent and encourages JSON responses.
     HEADERS = {'User-Agent': 'okhttp/4.10.0', 'Accept': 'application/json'}
 
-    # This sets a 5 second connect and read timeout.
-    TIMEOUT = 5
+    # This sets a 5 second connect and 8 second read timeout.
+    TIMEOUT = (5, 8)
 
     ACTION_TYPE = {
         'Add': 0,
@@ -108,8 +108,8 @@ class Condeco:
         # Using a Session means Requests supports keep-alives.
         self.session = requests.Session()
 
-        # Retry a request multiple times.
-        max_retries = urllib3.util.Retry(allowed_methods=['GET','PUT','POST'])
+        # Retry a request multiple times (the data is generally stale after more than 3 retries).
+        max_retries = urllib3.util.Retry(total=3, allowed_methods=['GET','PUT','POST'])
         self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=max_retries))
 
         # Do not accept any cookies (especially ARRAffinity).
