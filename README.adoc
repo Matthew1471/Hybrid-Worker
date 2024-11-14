@@ -65,12 +65,11 @@ This, when the examples are run, will trigger an authentication code to be sent 
 }
 ```
 
-Upon a final run, a `token` and `sessionToken` should be provided in exchange for the `validation_key` so the `configuration.json` can now look like this:
+Upon a final run, a `token` should be provided in exchange for the `validation_key` so the `configuration.json` can now look like this:
 
 ```
 {
     "authentication": {
-        "sessionToken": "a1b23c45-d97e-4d72-abec-8dd08a0b9a4d",
         "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImExYjIzYzQ1LWQ5N2UtNGQ3Mi1hYmVjLThkZDA4YTBiOWE0ZCIsInVzZXJuYW1lIjoiMTIzNDUiLCJwYXNzd29yZGxlc3MiOiIxIiwicm9sZSI6InVzZXIiLCJpc3MiOiJDb25kZWNvUGFzc3dvcmRsZXNzIiwiYXVkIjoiMWFiMmNkM2U0NTY3OGFiNWIwYWZjODYzNGFlMjgzMzQiLCJleHAiOjE3MTM0NzM1NjgsIm5iZiI6MTcwNTMwMDU2OH0.AAAJm4iufqWRQkJsxUc4DihQj1sz_m0IpqqRYwmmAaQ",
         "unique_key": "MyCompany.CondecoSoftware.com"
     }
@@ -90,7 +89,6 @@ Eventually the `configuration.json` could look like this:
 {
     "authentication": {
         "email": "John.Doe@MyCompany.com",
-        "sessionToken": "a1b23c45-d97e-4d72-abec-8dd08a0b9a4d",
         "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImExYjIzYzQ1LWQ5N2UtNGQ3Mi1hYmVjLThkZDA4YTBiOWE0ZCIsInVzZXJuYW1lIjoiMTIzNDUiLCJwYXNzd29yZGxlc3MiOiIxIiwicm9sZSI6InVzZXIiLCJpc3MiOiJDb25kZWNvUGFzc3dvcmRsZXNzIiwiYXVkIjoiMWFiMmNkM2U0NTY3OGFiNWIwYWZjODYzNGFlMjgzMzQiLCJleHAiOjE3MTM0NzM1NjgsIm5iZiI6MTcwNTMwMDU2OH0.AAAJm4iufqWRQkJsxUc4DihQj1sz_m0IpqqRYwmmAaQ",
         "unique_key": "MyCompany.CondecoSoftware.com",
         "validation_key": "gDv6diVKLmoSVbasjaSAPh+1PbgcQAhN/thQYJHluwgE4J0KWOz22e2iAwXzfxR"
