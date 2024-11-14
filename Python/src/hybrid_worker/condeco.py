@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # This file is part of Hybrid-Worker <https://github.com/Matthew1471/Hybrid-Worker>
@@ -45,8 +45,8 @@ class Condeco:
     # This creates an expected user-agent and encourages JSON responses.
     HEADERS = {'User-Agent': 'okhttp/4.10.0', 'Accept': 'application/json'}
 
-    # This sets a 5 second connect and 8 second read timeout.
-    TIMEOUT = (5, 8)
+    # This sets a 5 second connect and 9 second read timeout.
+    TIMEOUT = (5, 9)
 
     ACTION_TYPE = {
         'Add': 0,
@@ -114,7 +114,7 @@ class Condeco:
 
         # Do not accept any cookies (especially ARRAffinity).
         self.session.cookies.set_policy(http.cookiejar.DefaultCookiePolicy(allowed_domains=[]))
-        
+
     @staticmethod
     def decode_jwt(token, audience=None):
         # While the signature itself is not verified, we enforce required fields and validate
@@ -127,7 +127,7 @@ class Condeco:
             'verify_iat': True,
             'verify_nbf': True
         }
-        
+
         # Audience validation is optional.
         if audience:
             options['verify_aud'] = True

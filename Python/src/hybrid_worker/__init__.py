@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # This file is part of Hybrid-Worker <https://github.com/Matthew1471/Hybrid-Worker>

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # This file is part of Hybrid-Worker <https://github.com/Matthew1471/Hybrid-Worker>
@@ -76,7 +76,7 @@ def book_single_day(condeco, candidate_date):
 
     # searchDeskByFeatures
     desk_search_request_with_features = {
-        'accessToken': configuration['authentication']['sessionToken'],
+        'accessToken': session_token,
         'locationID': configuration['auto_book']['location_id'],
         'groupID': configuration['auto_book']['group_id'],
         'floorID': configuration['auto_book']['floor_id'],
@@ -88,7 +88,7 @@ def book_single_day(condeco, candidate_date):
     }
 
     response = condeco.searchDeskByFeatures(
-        access_token=configuration['authentication']['token'],
+        access_token=access_token,
         desk_search_request_with_features=desk_search_request_with_features
     )
 
@@ -115,8 +115,8 @@ def book_single_day(condeco, candidate_date):
 def book_desk(condeco, date_string, desk_id):
     # bookDesk
     response = condeco.bookDesk(
-        access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        access_token=access_token,
+        session_token=session_token,
         user_id=None,
         location_id=configuration['auto_book']['location_id'],
         group_id=configuration['auto_book']['group_id'],
@@ -171,8 +171,18 @@ def main():
         candidate_dates = [ start_of_week + datetime.timedelta(days=4), start_of_week ]
         print(f'{datetime.datetime.now()} - Starting booking for {", ".join(map(str, candidate_dates))}.\n', flush=True)
 
+        # Obtain JWT.
+        global access_token
+        access_token = configuration['authentication']['token']
+
         # Check JWT.
-        decoded_jwt = Condeco.decode_jwt(configuration['authentication']['token'])
+        decoded_jwt = Condeco.decode_jwt(access_token)
+
+        # Obtain opaque session token from the JWT access token.
+        global session_token
+        session_token = decoded_jwt['id']
+
+        # List access token expiration details.
         expiry_date = datetime.datetime.fromtimestamp(decoded_jwt['exp'])
         time_delta = expiry_date - datetime.datetime.now()
         print(f'{datetime.datetime.now()} - Token expires in {time_delta}.\n', flush=True)

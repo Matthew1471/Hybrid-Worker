@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # This file is part of Hybrid-Worker <https://github.com/Matthew1471/Hybrid-Worker>
@@ -35,7 +35,7 @@ def bookDesk():
     # bookDesk
     response = condeco.bookDesk(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         user_id=None,
         location_id=configuration['examples']['location_id'],
         group_id=configuration['examples']['group_id'],
@@ -48,10 +48,10 @@ def bookDesk():
 def cancelBooking():
     # cancelBooking
     delete_booking = {
-        'sessionGuid':configuration['authentication']['sessionToken'],
-        'UserID':configuration['authentication']['sessionToken'],
+        'sessionGuid':session_token,
+        'UserID':session_token,
         'languageID':1,
-        'token':configuration['authentication']['sessionToken'],
+        'token':session_token,
         'bookingID':[configuration['examples']['room_booking_id']],
     }
 
@@ -66,9 +66,9 @@ def createBooking():
 
     # createBooking
     add_booking = {
-        'sessionGuid':configuration['authentication']['sessionToken'],
-        'UserID':configuration['authentication']['sessionToken'],
-        'token':configuration['authentication']['sessionToken'],
+        'sessionGuid':session_token,
+        'UserID':session_token,
+        'token':session_token,
         'roomBooking':{
             'RoomID':configuration['examples']['room_id'],
             'LocationName':'Location Name',
@@ -97,7 +97,7 @@ def deleteBooking():
     # deleteBooking
     response = condeco.deleteBooking(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         booking_id=configuration['examples']['booking_id'],
         desk_id=configuration['examples']['desk_id'],
         start_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y') + ' 00:00 AM',
@@ -120,7 +120,7 @@ def findColleagues():
     # findColleagues
     response = condeco.findColleagues(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         name=configuration['examples']['name']
     )
     print(response.text)
@@ -129,7 +129,7 @@ def getAttendancesRecord():
     # getAttendancesRecord
     response = condeco.getAttendancesRecord(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         start_date=datetime.date.today().strftime('%d/%m/%Y'),
         end_date=(datetime.date.today() + datetime.timedelta(14)).strftime('%d/%m/%Y'),
         user_id=-1
@@ -140,7 +140,7 @@ def getColleagueBookings():
     # getColleagueBookings
     response = condeco.getColleagueBookings(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         start_date=datetime.date.today().strftime('%d/%m/%Y'),
         end_date=(datetime.date.today() + datetime.timedelta(7)).strftime('%d/%m/%Y'),
         time_zone_id='""',
@@ -159,7 +159,7 @@ def getFloorPlan():
     # getFloorPlan
     response = condeco.getFloorPlan(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         location_id=configuration['examples']['location_id'],
         group_id=configuration['examples']['group_id'],
         floor_id=configuration['examples']['floor_id']
@@ -170,7 +170,7 @@ def getGroupSettingsWithRestrictions():
     # getGroupSettingsWithRestrictions
     response = condeco.getGroupSettingsWithRestrictions(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         booking_for_user_id=-1,
         location_id=configuration['examples']['location_id'],
         group_ids=configuration['examples']['group_id']
@@ -181,7 +181,7 @@ def getLoginInformation():
     # getLoginInformation
     response = condeco.getLoginInformation(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         language_id=1,
         current_date_time=datetime.datetime.now().strftime('%d/%m/%Y'),
         current_culture='en-GB'
@@ -192,18 +192,18 @@ def getMyTeams():
     # getMyTeams
     response = condeco.getMyTeams(
         access_token=configuration['authentication']['token'],
-        user_long_id=configuration['authentication']['sessionToken']
+        user_long_id=session_token
     )
     print(response.text)
 
 def getRoomAvailabilities():
     # getRoomAvailabilities
     room_request = {
-        'UserID':configuration['authentication']['sessionToken'],
-        'sessionGuid':configuration['authentication']['sessionToken'],
+        'UserID':session_token,
+        'sessionGuid':session_token,
         'roomIds':[configuration['examples']['room_id']],
         'date':(next_weekday(datetime.datetime.today(), 5) + datetime.timedelta(hours=17)).strftime('%Y-%m-%dT%H:%M:%SZ'),
-        'token':configuration['authentication']['sessionToken'],
+        'token':session_token,
     }
 
     response = condeco.getRoomAvailabilities(
@@ -216,10 +216,10 @@ def getRoomInfos():
     # getRoomInfos
     room_request = {
         'roomIds':[configuration['examples']['room_id']],
-        'sessionGuid':configuration['authentication']['sessionToken'],
+        'sessionGuid':session_token,
         'currentCulture':'en-GB',
-        'token':configuration['authentication']['sessionToken'],
-        'UserID':configuration['authentication']['sessionToken']
+        'token':session_token,
+        'UserID':session_token
     }
 
     response = condeco.getRoomInfos(
@@ -244,7 +244,7 @@ def listBookings():
     # listBookings
     response = condeco.listBookings(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         language_id=1,
         desk_start_date=datetime.date.today().strftime('%d/%m/%Y'),
         desk_end_date=(datetime.date.today() + datetime.timedelta(7)).strftime('%d/%m/%Y'),
@@ -259,7 +259,7 @@ def releaseDesk():
     # releaseDesk
     response = condeco.releaseDesk(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         location_id=configuration['examples']['location_id'],
         desk_id=configuration['examples']['desk_id'],
     )
@@ -274,7 +274,7 @@ def saveDefaultSettings():
             'roomGroupID':0,
             'deskForceDelete':1,
             'roomFloorID':'All',
-            'token':configuration['authentication']['sessionToken'],
+            'token':session_token,
             'deskLocationID':configuration['examples']['location_id'],
             'deskGroupID':configuration['examples']['group_id']
          }
@@ -290,7 +290,7 @@ def search():
     # search
     response = condeco.search(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         user_id=configuration['examples']['user_id'],
         location_id=configuration['examples']['location_id'],
         group_id=configuration['examples']['group_id'],
@@ -316,7 +316,7 @@ def searchAllByRoomFeatures():
             'groupIds':[],
             'roomAttributes':[],
             'endDate':(next_weekday(datetime.datetime.today(), 5) + datetime.timedelta(minutes=5,hours=17)).strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'token':configuration['authentication']['sessionToken']
+            'token':session_token
         }
     }
 
@@ -329,7 +329,7 @@ def searchAllByRoomFeatures():
 def searchDeskByFeatures():
     # searchDeskByFeatures
     desk_search_request_with_features = {
-        'accessToken':configuration['authentication']['sessionToken'],
+        'accessToken':session_token,
         'locationID':configuration['examples']['location_id'],
         'groupID':configuration['examples']['group_id'],
         'floorID':configuration['examples']['floor_id'],
@@ -350,7 +350,7 @@ def teamMemberOperation():
     # teamMemberOperation
     team_member_operation_request = {
         'teamMemberOperation':{
-            'SessionGuid':configuration['authentication']['sessionToken'],
+            'SessionGuid':session_token,
             'MemberIds': [configuration['examples']['user_id_other_2']],
             'ActionType':Condeco.ACTION_TYPE['Add']
         }
@@ -366,7 +366,7 @@ def updateAttendanceRecord():
     # updateAttendanceRecord
     response = condeco.updateAttendanceRecord(
         access_token=configuration['authentication']['token'],
-        session_token=configuration['authentication']['sessionToken'],
+        session_token=session_token,
         start_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y') + 'T00:00:00',
         end_date=next_weekday(datetime.date.today(), 5).strftime('%d/%m/%Y') + 'T00:00:00',
         attendance_type=Condeco.ATTENDANCE_TYPE['OnLeave'],
@@ -377,9 +377,9 @@ def updateAttendanceRecord():
 def updateBooking():
     # updateBooking
     update_booking_request = {
-        'token':configuration['authentication']['sessionToken'],
-        'sessionGuid':configuration['authentication']['sessionToken'],
-        'UserID':configuration['authentication']['sessionToken'],
+        'token':session_token,
+        'sessionGuid':session_token,
+        'UserID':session_token,
         'bookingRequest':{
             'NumAttending':1,
             'LanguageID':1,
@@ -387,7 +387,7 @@ def updateBooking():
             'RoomID':configuration['examples']['room_id'],
             'MeetingTitle':'Meeting Title',
             'TimeTo':'/Date(1706032800000)/',
-            'TimeFrom':'/Date(1706031000000)\/',
+            'TimeFrom':'/Date(1706031000000)/',
             'FloorNumber':0
         }
     }
@@ -431,6 +431,13 @@ def main():
 
     # Do we already have a token to use the app?
     if configuration['authentication'].get('token'):
+
+        # Obtain JWT.
+        decoded_jwt = Condeco.decode_jwt(configuration['authentication']['token'])
+
+        # Obtain opaque session token from the JWT access token.
+        global session_token
+        session_token = decoded_jwt['id']
 
         # bookDesk()
         ## bookReservedTeamDayDesk()
