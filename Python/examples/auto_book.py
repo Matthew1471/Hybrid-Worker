@@ -77,14 +77,14 @@ def book_single_day(condeco, candidate_date):
     # searchDeskByFeatures
     desk_search_request_with_features = {
         'accessToken': session_token,
-        'locationID': configuration['auto_book']['location_id'],
-        'groupID': configuration['auto_book']['group_id'],
-        'floorID': configuration['auto_book']['floor_id'],
+        'locationID': settings['location_id'],
+        'groupID': settings['group_id'],
+        'floorID': settings['floor_id'],
         'bookingType': Condeco.BOOKING_TYPE['None'],
         'startDate': date_string,
-        'userID': configuration['auto_book']['user_id'],
+        'userID': settings['user_id'],
         'deskAttributes': [],
-        'wsTypeID': configuration['auto_book']['ws_type_id']
+        'wsTypeID': settings['ws_type_id']
     }
 
     response = condeco.searchDeskByFeatures(
@@ -118,9 +118,9 @@ def book_desk(condeco, date_string, desk_id):
         access_token=access_token,
         session_token=session_token,
         user_id=None,
-        location_id=configuration['auto_book']['location_id'],
-        group_id=configuration['auto_book']['group_id'],
-        floor_id=configuration['auto_book']['floor_id'],
+        location_id=settings['location_id'],
+        group_id=settings['group_id'],
+        floor_id=settings['floor_id'],
         desk_id=desk_id,
         start_date=date_string + '|' + str(Condeco.BOOKING_TYPE['AllDay'])
     )
@@ -155,7 +155,6 @@ def main():
 
     # Load configuration.
     with open('configuration.json', mode='r', encoding='utf-8') as json_file:
-        global configuration
         configuration = json.load(json_file)
 
     # Create an initialised Condeco® object.
@@ -181,6 +180,10 @@ def main():
         # Obtain opaque session token from the JWT access token.
         global session_token
         session_token = decoded_jwt['id']
+
+        # Obtain reference to auto_book settings.
+        global settings
+        settings = configuration['auto_book']
 
         # List access token expiration details.
         expiry_date = datetime.datetime.fromtimestamp(decoded_jwt['exp'])
